@@ -17,10 +17,7 @@ const config = {
         pathname: '/f/**'
       }
     ]
-  } /* ,
-  experimental: {
-    ppr: true
-  } */
+  }
 };
 
 export default withMDX(config);
