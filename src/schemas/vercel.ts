@@ -10,7 +10,7 @@ export const deploymentMetaSchema = z.record(z.string(), {
 });
 
 export const deploymentSchema = z.object({
-  id: z.string().uuid({ message: 'Deployment ID must be a valid UUID' }),
+  id: z.string(),
   meta: deploymentMetaSchema,
   name: z.string().min(1, { message: 'Deployment name cannot be empty' }),
   url: z.string().url({ message: 'Deployment URL must be a valid URL' }),
@@ -25,7 +25,7 @@ export const linksSchema = z.object({
 });
 
 export const projectSchema = z.object({
-  id: z.string().uuid({ message: 'Project ID must be a valid UUID' }),
+  id: z.string(),
   name: z
     .string()
     .min(1, { message: 'Project name cannot be empty' })
@@ -38,7 +38,7 @@ export const domainSchema = z.object({
 });
 
 export const configurationSchema = z.object({
-  id: z.string().uuid({ message: 'Configuration ID must be a valid UUID' }),
+  id: z.string(),
   projects: z.array(z.string().uuid()).optional(),
   projectSelection: z.enum(['all', 'selected']).optional(),
   scopes: z.array(z.string()).optional()
