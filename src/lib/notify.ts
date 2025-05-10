@@ -1,8 +1,8 @@
 import { EMOJIS, getStateProperty } from '@/consts/discord';
 import HttpStatusCode from '@/enums/http-status-codes';
 import { env } from '@/env';
+import { type VercelWebhook, type WebhookType } from '@/schemas/vercel';
 import { type DiscordEmbedField, type DiscordMessage } from '@/types/discord';
-import { type VercelWebhook, type WebhookType } from '@/types/vercel';
 
 // Define bot info centrally
 const DISCORD_BOT_USERNAME = 'Vercel';

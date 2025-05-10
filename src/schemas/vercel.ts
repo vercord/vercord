@@ -5,75 +5,74 @@ import { z } from 'zod';
  * @see https://vercel.com/docs/webhooks/webhooks-api
  */
 
-export const deploymentMetaSchema = z.record(z.string(), {
-  description: 'Metadata key-value pairs associated with the deployment'
-});
+// Records and metadata can have varied structures, so keep it flexible
+export const deploymentMetaSchema = z.record(z.string().optional());
 
-export const deploymentSchema = z.object({
-  id: z.string(),
-  meta: deploymentMetaSchema,
-  name: z.string().min(1, { message: 'Deployment name cannot be empty' }),
-  url: z.string().url({ message: 'Deployment URL must be a valid URL' }),
-  inspectorUrl: z.string().url({ message: 'Inspector URL must be a valid URL' })
-});
+export const deploymentSchema = z
+  .object({
+    id: z.string(),
+    meta: deploymentMetaSchema,
+    name: z.string(),
+    url: z.string(),
+    inspectorUrl: z.string().optional(),
+    projectId: z.string().optional(),
+    teamId: z.string().optional(),
+    createdAt: z.number().optional(),
+    target: z.string().nullable().optional()
+  })
+  .passthrough();
 
-export const linksSchema = z.object({
-  deployment: z
-    .string()
-    .url({ message: 'Deployment link must be a valid URL' }),
-  project: z.string().url({ message: 'Project link must be a valid URL' })
-});
+export const linksSchema = z
+  .object({
+    deployment: z.string().url(),
+    project: z.string().url().optional()
+  })
+  .passthrough();
 
-export const projectSchema = z.object({
-  id: z.string(),
-  name: z
-    .string()
-    .min(1, { message: 'Project name cannot be empty' })
-    .optional()
-});
+export const projectSchema = z
+  .object({
+    id: z.string(),
+    name: z.string().optional()
+  })
+  .passthrough();
 
-export const domainSchema = z.object({
-  name: z.string().min(1, { message: 'Domain name cannot be empty' }),
-  delegated: z.boolean().optional()
-});
+export const domainSchema = z
+  .object({
+    name: z.string(),
+    delegated: z.boolean().optional()
+  })
+  .passthrough();
 
-export const configurationSchema = z.object({
-  id: z.string(),
-  projects: z.array(z.string().uuid()).optional(),
-  projectSelection: z.enum(['all', 'selected']).optional(),
-  scopes: z.array(z.string()).optional()
-});
+export const configurationSchema = z
+  .object({
+    id: z.string(),
+    projects: z.array(z.string()).optional(),
+    projectSelection: z.enum(['all', 'selected']).optional(),
+    scopes: z.array(z.string()).optional()
+  })
+  .passthrough();
 
-export const integrationSchema = z.object({
-  id: z.string().uuid({ message: 'Integration ID must be a valid UUID' }),
-  name: z.string().min(1, { message: 'Integration name cannot be empty' })
-});
+export const integrationResourceSchema = z
+  .object({
+    id: z.string(),
+    name: z.string(),
+    type: z.string(),
+    integration: z
+      .object({
+        id: z.string(),
+        name: z.string()
+      })
+      .passthrough()
+  })
+  .passthrough();
 
-export const integrationResourceSchema = z.object({
-  id: z.string().uuid({ message: 'Resource ID must be a valid UUID' }),
-  name: z.string().min(1, { message: 'Resource name cannot be empty' }),
-  type: z.string().min(1, { message: 'Resource type cannot be empty' }),
-  integration: integrationSchema
-});
+export const marketplaceInvoiceSchema = z
+  .object({
+    id: z.string()
+  })
+  .passthrough();
 
-export const marketplaceInvoiceSchema = z.object({
-  id: z.string().uuid({ message: 'Invoice ID must be a valid UUID' })
-});
-
-export const userSchema = z.object({
-  id: z.string().uuid({ message: 'User ID must be a valid UUID' }),
-  email: z.string().email({ message: 'User email must be valid' }).optional(),
-  username: z.string().min(1).optional()
-});
-
-export const teamSchema = z.object({
-  id: z.string().uuid({ message: 'Team ID must be a valid UUID' }),
-  name: z.string().min(1).optional(),
-  slug: z.string().min(1).optional()
-});
-
-// Webhook type enum with all supported event types
-// https://vercel.com/docs/webhooks/webhooks-api#supported-event-types
+// Webhook type enum with all supported event types from the documentation
 export const webhookTypeEnum = z.enum([
   // Deployment events
   'deployment.created',
@@ -110,52 +109,94 @@ export const webhookTypeEnum = z.enum([
   'project.removed'
 ]);
 
-// Webhook payload schema based on official Vercel documentation
-// https://vercel.com/docs/webhooks/webhooks-api#payload
-export const webhookSchema = z.object({
-  id: z.string().uuid({ message: 'Webhook ID must be a valid UUID' }),
-  region: z.string().optional(),
-  createdAt: z
-    .number()
-    .int()
-    .positive({ message: 'Created timestamp must be a positive integer' }),
-  type: webhookTypeEnum,
-  payload: z
-    .object({
-      // Common properties
-      user: userSchema.optional(),
-      team: teamSchema.optional(),
+// Main webhook schema based on Vercel's documentation
+export const webhookSchema = z
+  .object({
+    id: z.string(),
+    region: z.string().optional(),
+    createdAt: z.number(),
+    projectId: z.string().optional(),
+    teamId: z.string().optional(),
+    type: webhookTypeEnum,
+    payload: z
+      .object({
+        // Common properties
+        user: projectSchema.optional(),
+        team: projectSchema.optional(),
 
-      // Deployment specific properties
-      deployment: deploymentSchema.optional(),
-      links: linksSchema.optional(),
-      name: z.string().min(1).optional(),
-      plan: z.string().min(1).optional(),
-      project: projectSchema.optional(),
-      regions: z.array(z.string()).min(1).optional(),
-      target: z.string().nullable().optional(),
-      type: z.string().min(1).optional(),
-      url: z.string().url().optional(),
-      alias: z.array(z.string()).default([]),
-      integrationId: z.string().uuid().optional(),
+        // Deployment specific properties
+        deployment: deploymentSchema.optional(),
+        links: linksSchema.optional(),
+        name: z.string().optional(),
+        plan: z.string().optional(),
+        project: projectSchema.optional(),
+        regions: z.array(z.string()).optional(),
+        target: z.string().nullable().optional(),
+        type: z.string().optional(),
+        url: z.string().optional(),
+        alias: z.array(z.string()).optional().default([]),
 
-      // Domain specific properties
-      domain: domainSchema.optional(),
+        // Domain specific properties
+        domain: domainSchema.optional(),
 
-      // Integration configuration properties
-      configuration: configurationSchema.optional(),
-      projects: z
-        .object({
-          added: z.array(z.string().uuid()).optional(),
-          removed: z.array(z.string().uuid()).optional()
-        })
-        .optional(),
+        // Integration configuration properties
+        configuration: configurationSchema.optional(),
+        projects: z
+          .object({
+            added: z.array(z.string()).optional(),
+            removed: z.array(z.string()).optional()
+          })
+          .optional(),
 
-      // Integration resource properties
-      resource: integrationResourceSchema.optional(),
+        // Integration resource properties
+        resource: integrationResourceSchema.optional(),
 
-      // Marketplace invoice properties
-      invoice: marketplaceInvoiceSchema.optional()
-    })
-    .passthrough() // Allow additional properties that might be present in webhook payloads
-});
+        // Marketplace invoice properties
+        invoice: marketplaceInvoiceSchema.optional()
+      })
+      .passthrough()
+  })
+  .passthrough();
+
+// ------------------------------
+// Type definitions derived from schemas
+// ------------------------------
+
+export type VercelWebhook = z.infer<typeof webhookSchema>;
+export type WebhookType = z.infer<typeof webhookTypeEnum>;
+export type DeploymentMeta = z.infer<typeof deploymentMetaSchema>;
+export type Deployment = z.infer<typeof deploymentSchema>;
+export type Links = z.infer<typeof linksSchema>;
+export type Project = z.infer<typeof projectSchema>;
+export type Domain = z.infer<typeof domainSchema>;
+export type Configuration = z.infer<typeof configurationSchema>;
+export type IntegrationResource = z.infer<typeof integrationResourceSchema>;
+export type MarketplaceInvoice = z.infer<typeof marketplaceInvoiceSchema>;
+
+// Additional types for entities not directly modeled as schemas
+
+/**
+ * Integration type
+ */
+export type Integration = {
+  id: string;
+  name: string;
+};
+
+/**
+ * User type
+ */
+export type User = {
+  id: string;
+  email?: string;
+  username?: string;
+};
+
+/**
+ * Team type
+ */
+export type Team = {
+  id: string;
+  name?: string;
+  slug?: string;
+};

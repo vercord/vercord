@@ -1,5 +1,5 @@
+import { type WebhookType } from '@/schemas/vercel';
 import { type StateProperty } from '@/types/discord';
-import { type WebhookType } from '@/types/vercel';
 
 export const COLORS = {
   PROMOTED: 0xd998e3, // Bright purple
