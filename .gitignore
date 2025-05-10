@@ -1,5 +1,6 @@
 # deps
 /node_modules
+.yarn/install-state.gz
 
 # generated content
 .contentlayer
@@ -24,5 +25,7 @@ yarn-error.log*
 
 # others
 .env*.local
+.env
 .vercel
 next-env.d.ts
+.cursor/rules/*
