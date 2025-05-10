@@ -1,45 +1,57 @@
-# vercord
+# Vercel to Discord
 
-This is a Next.js application generated with
-[Create Fumadocs](https://github.com/fuma-nama/fumadocs).
+A lightweight integration service that connects Vercel deployments with Discord,
+delivering real-time status notifications to your team channels. Enhance your
+DevOps workflow with immediate visibility into your deployment pipeline.
 
-Run development server:
+## Features
 
-```bash
-npm run dev
-# or
-pnpm dev
-# or
-yarn dev
+- Real-time deployment event notifications
+- Support for all Vercel webhook event types
+- Rich Discord embeds with status-specific colors and icons
+- Direct links to Vercel deployments, projects, and GitHub commits
+- Context-rich information including branch, commit, and environment details
+- Reliable delivery with retry mechanism for handling rate limits
+- Easily extensible for customization
+
+## Setup Guide
+
+### 1. Configure Discord Webhook
+
+1. Open your Discord server settings → Integrations → Webhooks
+2. Create a new webhook and assign it to your desired channel
+3. Copy the generated webhook URL
+
+### 2. Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/kWAYTV/vercel-to-discord)
+
+Configure the following environment variables during deployment:
+
+```
+DISCORD_WEBHOOK_URL=your_discord_webhook_url
+WEBHOOK_INTEGRATION_SECRET=generate_a_secure_random_string
 ```
 
-Open http://localhost:3000 with your browser to see the result.
+### 3. Connect Your Vercel Project
 
-## Explore
+1. Navigate to your Vercel project → Settings → Webhooks
+2. Add a new webhook with URL: `https://<your-deployed-url>/api/vercel-webhook`
+3. Set the secret to match the `WEBHOOK_INTEGRATION_SECRET` value you configured
+4. Select the event types you want notifications for
 
-In the project, you can see:
+## Security Considerations
 
-- `lib/source.ts`: Code for content source adapter, [`loader()`](https://fumadocs.dev/docs/headless/source-api) provides the interface to access your content.
-- `app/layout.config.tsx`: Shared options for layouts, optional but preferred to keep.
+- Store your webhook secret securely with a unique value for each integration
+- All incoming webhooks are validated using HMAC-SHA1 signatures
+- Webhook payloads are validated against a strict schema to ensure data
+  integrity
 
-| Route                     | Description                                            |
-| ------------------------- | ------------------------------------------------------ |
-| `app/(home)`              | The route group for your landing page and other pages. |
-| `app/docs`                | The documentation layout and pages.                    |
-| `app/api/search/route.ts` | The Route Handler for search.                          |
+## License
 
-### Fumadocs MDX
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
+for details.
 
-A `source.config.ts` config file has been included, you can customise different options like frontmatter schema.
+---
 
-Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
-
-## Learn More
-
-To learn more about Next.js and Fumadocs, take a look at the following
-resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-  features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-- [Fumadocs](https://fumadocs.vercel.app) - learn about Fumadocs
+Originally conceptualized by [@rewbs](https://github.com/rewbs).
