@@ -13,7 +13,11 @@ export async function POST(req: Request) {
 
     if (!verifySignature(rawBody, signature)) {
       return Response.json(
-        { code: 'invalid_signature', error: 'Signature verification failed' },
+        {
+          success: false,
+          code: 'invalid_signature',
+          error: 'Signature verification failed'
+        },
         { status: HttpStatusCode.UNAUTHORIZED_401 }
       );
     }
@@ -26,6 +30,7 @@ export async function POST(req: Request) {
 
     return Response.json({ success: true, message: 'Webhook processed' });
   } catch (error) {
+    console.error(error);
     if (error instanceof Error) {
       return Response.json(
         { success: false, error: error.message },
