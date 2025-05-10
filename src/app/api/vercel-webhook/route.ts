@@ -44,7 +44,7 @@ export async function GET() {
   try {
     return Response.json(
       {
-        success: true,
+        success: false,
         message:
           'This endpoint only accepts POST requests from verified Vercel webhooks'
       },
