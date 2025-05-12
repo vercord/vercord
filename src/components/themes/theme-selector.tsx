@@ -1,6 +1,7 @@
 'use client';
 import {
   CheckIcon,
+  MonitorIcon,
   MoonIcon,
   RepeatIcon,
   SunIcon,
@@ -28,54 +29,55 @@ export function ThemeSelector() {
 
   return (
     <div className='w-full'>
-      <div className='flex items-start pt-4 md:pt-0'>
-        <div className='space-y-1 pr-2'>
-          <div className='leading-none font-semibold tracking-tight'>
-            Customize
-          </div>
+      <div className='flex items-start justify-between pt-4 md:pt-0'>
+        <div className='space-y-1'>
+          <div className='font-semibold tracking-tight'>Customize</div>
           <div className='text-muted-foreground text-xs'>
-            Pick a style and color for the website.
+            Choose your style and color preferences
           </div>
         </div>
-        <Button
-          variant='ghost'
-          size='icon'
-          className='ml-auto rounded-[0.5rem]'
-          onClick={() => setTheme('system')}
-        >
-          <RepeatIcon />
-          <span className='sr-only'>Reset</span>
-        </Button>
-        <Button
-          asChild
-          variant='ghost'
-          size='icon'
-          className='ml-2 rounded-[0.5rem]'
-          aria-label='Go to homepage'
-        >
-          <Link href='/'>
-            <XIcon />
-            <span className='sr-only'>Close and go home</span>
-          </Link>
-        </Button>
+        <div className='flex items-center gap-2'>
+          <Button
+            variant='ghost'
+            size='icon'
+            className='hover:bg-muted rounded-[0.5rem] transition-colors'
+            onClick={() => setTheme('system')}
+            aria-label='Reset to system theme'
+          >
+            <RepeatIcon className='size-4' />
+          </Button>
+          <Button
+            asChild
+            variant='ghost'
+            size='icon'
+            className='hover:bg-muted rounded-[0.5rem] transition-colors'
+            aria-label='Close theme selector'
+          >
+            <Link href='/'>
+              <XIcon className='size-4' />
+            </Link>
+          </Button>
+        </div>
       </div>
-      <div className='flex flex-1 flex-col space-y-4 md:space-y-6'>
-        <div className='space-y-1.5'>
-          <Label className='text-xs'>Color</Label>
-          <div className='flex flex-col gap-2'>
+
+      <div className='mt-6 flex flex-col space-y-6'>
+        {/* Color Theme Selection */}
+        <div className='space-y-3'>
+          <Label className='text-muted-foreground text-xs font-medium'>
+            Color Theme
+          </Label>
+          <div className='flex flex-col gap-2.5'>
             {baseThemes.map(color => {
               const isActive = activeTheme === color.name;
 
               return mounted ? (
                 <Button
-                  variant={'outline'}
+                  variant='outline'
                   size='sm'
                   key={color.name}
-                  onClick={() => {
-                    setActiveTheme(color.name);
-                  }}
+                  onClick={() => setActiveTheme(color.name)}
                   className={cn(
-                    'justify-start',
+                    'justify-start transition-all duration-200',
                     isActive && 'border-primary dark:border-primary border-2'
                   )}
                   style={
@@ -86,12 +88,8 @@ export function ThemeSelector() {
                     } as React.CSSProperties
                   }
                 >
-                  <span
-                    className={cn(
-                      'mr-1 flex size-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]'
-                    )}
-                  >
-                    {isActive && <CheckIcon className='size-4 text-white' />}
+                  <span className='mr-2 flex size-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]'>
+                    {isActive && <CheckIcon className='size-3.5 text-white' />}
                   </span>
                   {color.label}
                 </Button>
@@ -101,35 +99,61 @@ export function ThemeSelector() {
             })}
           </div>
         </div>
-        <div className='space-y-1.5'>
-          <Label className='text-xs'>Mode</Label>
-          <div className='grid grid-cols-3 gap-2'>
+
+        {/* Mode Selection */}
+        <div className='space-y-3'>
+          <Label className='text-muted-foreground text-xs font-medium'>
+            Appearance Mode
+          </Label>
+          <div className='grid grid-cols-3 gap-2.5'>
             {mounted ? (
               <>
                 <Button
-                  variant={'outline'}
+                  variant='outline'
                   size='sm'
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className={cn(theme !== 'dark' && 'border-primary border-2')}
+                  onClick={() => setTheme('light')}
+                  className={cn(
+                    'transition-all duration-200',
+                    theme === 'light' && 'border-primary border-2'
+                  )}
+                  aria-label='Light mode'
                 >
-                  <SunIcon className='mr-1 -translate-x-1' />
+                  <SunIcon className='mr-2 size-4 -translate-x-1' />
                   Light
                 </Button>
                 <Button
-                  variant={'outline'}
+                  variant='outline'
                   size='sm'
-                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                  onClick={() => setTheme('dark')}
                   className={cn(
+                    'transition-all duration-200',
                     theme === 'dark' &&
                       'border-primary dark:border-primary border-2'
                   )}
+                  aria-label='Dark mode'
                 >
-                  <MoonIcon className='mr-1 -translate-x-1' />
+                  <MoonIcon className='mr-2 size-4 -translate-x-1' />
                   Dark
+                </Button>
+                <Button
+                  variant='outline'
+                  size='sm'
+                  onClick={() => setTheme('system')}
+                  className={cn(
+                    'transition-all duration-200',
+                    theme !== 'light' &&
+                      theme !== 'dark' &&
+                      'border-primary dark:border-primary border-2'
+                  )}
+                  aria-label='System mode'
+                >
+                  <MonitorIcon className='mr-2 size-4 -translate-x-1' />
+                  System
                 </Button>
               </>
             ) : (
               <>
+                <Skeleton className='h-8 w-full' />
                 <Skeleton className='h-8 w-full' />
                 <Skeleton className='h-8 w-full' />
               </>
