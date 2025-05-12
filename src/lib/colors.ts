@@ -1,18 +1,18 @@
 export const baseColors = [
   {
+    name: 'vercel',
+    label: 'Vercel',
+    activeColor: {
+      light: 'oklch(0 0 0)',
+      dark: 'oklch(1 0 0)'
+    }
+  },
+  {
     name: 'retro-arcade',
     label: 'Retro Arcade',
     activeColor: {
       light: 'oklch(0.59 0.2 355.89)',
       dark: 'oklch(0.59 0.2 355.89)'
-    }
-  },
-  {
-    name: 'kodama-grove',
-    label: 'Kodama Grove',
-    activeColor: {
-      light: 'oklch(0.67 0.11 118.91)',
-      dark: 'oklch(0.68 0.06 132.45)'
     }
   },
   {
@@ -33,7 +33,7 @@ export const baseColors = [
   },
   {
     name: 'vintage-paper',
-    label: 'Vintange Paper',
+    label: 'Vintage Paper',
     activeColor: {
       light: 'oklch(0.62 0.08 65.54)',
       dark: 'oklch(0.73 0.06 66.7)'
