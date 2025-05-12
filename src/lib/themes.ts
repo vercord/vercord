@@ -62,6 +62,14 @@ export const baseThemes = [
       light: 'oklch(0.61 0.08 299.73)',
       dark: 'oklch(0.71 0.08 302.05)'
     }
+  },
+  {
+    name: 'catppuccin',
+    label: 'Catppuccin',
+    activeColor: {
+      light: 'oklch(0.55 0.25 297.02)',
+      dark: 'oklch(0.79 0.12 304.77)'
+    }
   }
 ] as const;
 
