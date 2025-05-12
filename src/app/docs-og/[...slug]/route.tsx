@@ -1,6 +1,7 @@
 import { generateOGImage } from 'fumadocs-ui/og';
 import { notFound } from 'next/navigation';
 
+import { title } from '@/consts/metadata';
 import { source } from '@/lib/source';
 
 export async function GET(
@@ -14,7 +15,7 @@ export async function GET(
   return generateOGImage({
     title: page.data.title,
     description: page.data.description,
-    site: 'My App'
+    site: title
   });
 }
 
