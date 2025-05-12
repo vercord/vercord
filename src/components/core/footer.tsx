@@ -14,7 +14,7 @@ export const Footer: FC = function Footer() {
             href='https://vercel.com'
             target='_blank'
             rel='noopener noreferrer'
-            className='hover:text-foreground transition-colors duration-200 hover:underline'
+            className='hover:text-foreground underline transition-colors duration-200'
           >
             Vercel
           </Link>{' '}
@@ -23,7 +23,7 @@ export const Footer: FC = function Footer() {
             href='https://discord.com'
             target='_blank'
             rel='noopener noreferrer'
-            className='hover:text-foreground transition-colors duration-200 hover:underline'
+            className='hover:text-foreground underline transition-colors duration-200'
           >
             Discord
           </Link>
