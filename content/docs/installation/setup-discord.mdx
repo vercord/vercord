@@ -4,4 +4,53 @@ description: How to setup Discord for Vercord
 icon: CheckCheck
 ---
 
+import { Step, Steps } from 'fumadocs-ui/components/steps';
+
 # Setup Discord
+
+<Steps>
+<Step>
+
+### Open Discord and Go to Your Server
+
+Open Discord and navigate to the server where you want to receive Vercord
+messages.
+
+</Step>
+<Step>
+
+### Edit the Target Channel
+
+Right-click the channel you want to use and select **Edit Channel**.
+
+</Step>
+<Step>
+
+### Go to Integrations > Webhooks
+
+In the channel settings, go to the **Integrations** tab, then click
+**Webhooks**.
+
+</Step>
+<Step>
+
+### Create or Select a Webhook
+
+Click **New Webhook** (or select an existing one). Name it (e.g., `Vercord`).
+
+</Step>
+<Step>
+
+### Copy the Webhook URL
+
+Copy the **Webhook URL** provided by Discord.
+
+</Step>
+<Step>
+
+### Use the Webhook URL in Vercord
+
+Paste this URL as your `DISCORD_WEBHOOK_URL` in your environment config.
+
+</Step>
+</Steps>
