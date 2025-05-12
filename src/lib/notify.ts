@@ -5,7 +5,7 @@ import { env } from '@/env';
 import { type VercelWebhook, type WebhookType } from '@/schemas/vercel';
 
 // Define bot info centrally
-const DISCORD_BOT_USERNAME = 'Vercel';
+const DISCORD_BOT_USERNAME = 'Vercord';
 const DISCORD_BOT_AVATAR_URL =
   'https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png';
 
