@@ -24,7 +24,7 @@ DevOps workflow with immediate visibility into your deployment pipeline.
 
 ### 2. Deploy to Vercel
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/kWAYTV/vercel-to-discord)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/kWAYTV/vercord)
 
 Configure the following environment variables during deployment:
 

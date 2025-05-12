@@ -4,6 +4,7 @@ import { BookOpen, Github } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
+import { githubUrl } from '@/consts/metadata';
 
 export function Hero() {
   return (
@@ -28,11 +29,7 @@ export function Hero() {
           </Link>
         </Button>
         <Button asChild className='group w-full sm:w-auto'>
-          <Link
-            href='https://github.com/kWAYTV/vercel-to-discord'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
+          <Link href={githubUrl} target='_blank' rel='noopener noreferrer'>
             View on GitHub
             <Github className='ml-1.5 h-4 w-4 transition-transform group-hover:rotate-12 sm:h-5 sm:w-5' />
           </Link>
