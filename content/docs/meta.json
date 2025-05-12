@@ -3,6 +3,9 @@
     "pages": [
         "index",
         "---Installation---",
-        "...installation"
+        "...installation",
+        "---Useful Links---",
+        "[Triangle][Vercel](https://vercel.com)",
+        "[Circle][Discord](https://discord.com/invite/triangle-community)"
     ]
 }
