@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
 import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
-  useState,
-} from "react";
+  useState
+} from 'react';
 
-const COOKIE_NAME = "active_theme";
-const DEFAULT_THEME = "default";
+const COOKIE_NAME = 'active_theme';
+const DEFAULT_THEME = 'default';
 
 function setThemeCookie(theme: string) {
-  if (typeof window === "undefined") return;
+  if (typeof window === 'undefined') return;
 
   document.cookie = `${COOKIE_NAME}=${theme}; path=/; max-age=31536000; SameSite=Lax; ${
-    window.location.protocol === "https:" ? "Secure;" : ""
+    window.location.protocol === 'https:' ? 'Secure;' : ''
   }`;
 }
 
@@ -31,10 +31,10 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith(`${COOKIE_NAME}=`));
+      .split('; ')
+      .find(row => row.startsWith(`${COOKIE_NAME}=`));
     if (cookie) {
-      const cookieTheme = cookie.split("=")[1];
+      const cookieTheme = cookie.split('=')[1];
       if (cookieTheme && cookieTheme !== activeTheme) {
         setActiveTheme(cookieTheme);
       }
@@ -46,14 +46,14 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
     setThemeCookie(activeTheme);
 
     Array.from(document.body.classList)
-      .filter((className) => className.startsWith("theme-"))
-      .forEach((className) => {
+      .filter(className => className.startsWith('theme-'))
+      .forEach(className => {
         document.body.classList.remove(className);
       });
 
     document.body.classList.add(`theme-${activeTheme}`);
-    if (activeTheme.endsWith("-scaled")) {
-      document.body.classList.add("theme-scaled");
+    if (activeTheme.endsWith('-scaled')) {
+      document.body.classList.add('theme-scaled');
     }
   }, [activeTheme]);
 
@@ -73,7 +73,7 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
               }
             } catch (e) {}
           })();
-        `,
+        `
         }}
       />
       {children}
@@ -85,7 +85,7 @@ export function useThemeConfig() {
   const context = useContext(ThemeContext);
   if (context === undefined) {
     throw new Error(
-      "useThemeConfig must be used within an ActiveThemeProvider",
+      'useThemeConfig must be used within an ActiveThemeProvider'
     );
   }
   return context;

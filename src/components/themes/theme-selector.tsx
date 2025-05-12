@@ -6,9 +6,9 @@ import {
   SunIcon,
   X as XIcon
 } from 'lucide-react';
+import Link from 'next/link';
 import { useTheme } from 'next-themes';
 import * as React from 'react';
-import Link from 'next/link';
 
 import { useThemeConfig } from '@/components/themes/active-theme';
 import { Button } from '@/components/ui/button';
