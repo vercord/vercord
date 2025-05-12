@@ -14,7 +14,7 @@ import { useThemeConfig } from '@/components/themes/active-theme';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { baseColors } from '@/lib/colors';
+import { baseThemes } from '@/lib/themes';
 import { cn } from '@/lib/utils';
 
 export function ThemeSelector() {
@@ -63,7 +63,7 @@ export function ThemeSelector() {
         <div className='space-y-1.5'>
           <Label className='text-xs'>Color</Label>
           <div className='flex flex-col gap-2'>
-            {baseColors.map(color => {
+            {baseThemes.map(color => {
               const isActive = activeTheme === color.name;
 
               return mounted ? (

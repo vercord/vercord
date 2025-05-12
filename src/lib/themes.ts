@@ -1,4 +1,4 @@
-export const baseColors = [
+export const baseThemes = [
   {
     name: 'vercel',
     label: 'Vercel',
@@ -65,4 +65,4 @@ export const baseColors = [
   }
 ] as const;
 
-export type BaseColor = (typeof baseColors)[number];
+export type BaseTheme = (typeof baseThemes)[number];
