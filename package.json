@@ -19,6 +19,7 @@
     "fumadocs-core": "15.3.0",
     "fumadocs-mdx": "11.6.3",
     "fumadocs-ui": "15.3.0",
+    "geist": "^1.4.2",
     "lucide-react": "^0.509.0",
     "motion": "^12.10.5",
     "next": "15.3.1",
