@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           url: '/docs'
         },
         {
-          text: 'Theme',
+          text: 'Themes',
           url: '/theme'
         }
       ]}
