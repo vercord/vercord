@@ -25,8 +25,8 @@ export async function POST(req: Request) {
     const payload = JSON.parse(rawBody);
     const webhook = webhookSchema.parse(payload);
 
-    const message = createMessageFromWebhook(webhook);
-    await sendDiscordNotification(message);
+    const embed = createMessageFromWebhook(webhook);
+    await sendDiscordNotification(embed);
 
     return Response.json({ success: true, message: 'Webhook processed' });
   } catch (error) {
