@@ -1,4 +1,4 @@
-import { Github } from 'lucide-react';
+import { BookOpen, Github } from 'lucide-react';
 import Link from 'next/link';
 
 import { Footer } from '@/components/core/footer';
@@ -29,16 +29,24 @@ export default function Home() {
           Seamlessly integrate your Vercel deployment notifications with
           Discord. Stay updated on every deployment status in real-time.
         </p>
-        <Button asChild className='group'>
-          <Link
-            href='https://github.com/kWAYTV/vercel-to-discord'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            View on GitHub
-            <Github className='transition-transform group-hover:rotate-12' />
-          </Link>
-        </Button>
+        <div className='flex gap-4'>
+          <Button asChild className='group' variant='primary-outline'>
+            <Link href='/docs'>
+              Getting Started
+              <BookOpen className='transition-transform group-hover:translate-x-0.5' />
+            </Link>
+          </Button>
+          <Button asChild className='group'>
+            <Link
+              href='https://github.com/kWAYTV/vercel-to-discord'
+              target='_blank'
+              rel='noopener noreferrer'
+            >
+              View on GitHub
+              <Github className='transition-transform group-hover:rotate-12' />
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Footer />
