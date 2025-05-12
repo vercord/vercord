@@ -8,6 +8,14 @@ export const baseColors = [
     }
   },
   {
+    name: 't3chat',
+    label: 'T3 Chat',
+    activeColor: {
+      light: 'oklch(0.53 0.14 355.20)',
+      dark: 'oklch(0.46 0.19 4.10)'
+    }
+  },
+  {
     name: 'retro-arcade',
     label: 'Retro Arcade',
     activeColor: {
