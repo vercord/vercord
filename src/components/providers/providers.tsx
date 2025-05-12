@@ -3,6 +3,7 @@
 import * as React from 'react';
 
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { ActiveThemeProvider } from '@/components/themes/active-theme';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +13,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      {children}
+      <ActiveThemeProvider>{children}</ActiveThemeProvider>
     </ThemeProvider>
   );
 }

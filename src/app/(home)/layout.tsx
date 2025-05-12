@@ -11,6 +11,10 @@ export default function Layout({ children }: { children: ReactNode }) {
         {
           text: 'Documentation',
           url: '/docs'
+        },
+        {
+          text: 'Theme',
+          url: '/theme'
         }
       ]}
     >

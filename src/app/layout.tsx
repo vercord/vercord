@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang='en' className={geist.className} suppressHydrationWarning>
-      <body className='flex min-h-screen flex-col'>
+      <body className='theme-default flex min-h-screen flex-col'>
         <RootProvider>
           <Providers>{children}</Providers>
         </RootProvider>
