@@ -2,7 +2,7 @@
     "title": "docs",
     "pages": [
         "index",
-        "---First Steps---",
-        "requirements"
+        "---Installation---",
+        "...installation"
     ]
 }
