@@ -16,29 +16,32 @@ DevOps workflow with immediate visibility into your deployment pipeline.
 
 ## Setup Guide
 
-### 1. Configure Discord Webhook
+1. **Deploy to Vercel**
 
-1. Open your Discord server settings → Integrations → Webhooks
-2. Create a new webhook and assign it to your desired channel
-3. Copy the generated webhook URL
+   - [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Vercord/vercord)
+   - No need to fork, just use the button above.
 
-### 2. Deploy to Vercel
+2. **Get your Discord webhook URL**
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Vercord/vercord)
+   - Go to your Discord server settings → Integrations → Webhooks
+   - Create a webhook for your desired channel and copy the URL
 
-Configure the following environment variables during deployment:
+3. **Set up Vercel's webhook**
 
-```
-DISCORD_WEBHOOK_URL=your_discord_webhook_url
-WEBHOOK_INTEGRATION_SECRET=generate_a_secure_random_string
-```
+   - In the [Vercel dashboard](https://vercel.com/dashboard) (not the project),
+     go to Settings → Webhooks
+   - Add a new webhook with URL:
+     `https://<your-deployed-url>/api/vercel-webhook`
+   - Select the events you want notifications for
+   - Copy the secret Vercel generates for you
 
-### 3. Connect Your Vercel Project
-
-1. Navigate to your Vercel project → Settings → Webhooks
-2. Add a new webhook with URL: `https://<your-deployed-url>/api/vercel-webhook`
-3. Set the secret to match the `WEBHOOK_INTEGRATION_SECRET` value you configured
-4. Select the event types you want notifications for
+4. **Set environment variables and redeploy**
+   - In your Vercel project settings, set:
+     ```
+     DISCORD_WEBHOOK_URL=your_discord_webhook_url
+     WEBHOOK_INTEGRATION_SECRET=vercel_generated_secret
+     ```
+   - Redeploy your project on Vercel
 
 ## Security Considerations
 

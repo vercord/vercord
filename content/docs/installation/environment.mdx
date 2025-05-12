@@ -4,4 +4,23 @@ description: How to setup environment variables for Vercord
 icon: Settings
 ---
 
+import { TypeTable } from 'fumadocs-ui/components/type-table';
+
 # Environment Variables
+
+These are the environment variables you need to set for Vercord to work.
+
+<TypeTable
+  type={{
+    WEBHOOK_INTEGRATION_SECRET: {
+      description: 'The secret for the Vercel webhook integration',
+      type: 'string',
+      default: 'vercord'
+    },
+    DISCORD_WEBHOOK_URL: {
+      description: 'The URL for the Discord webhook integration',
+      type: 'string',
+      default: 'https://vercord.vercel.app/api/webhook'
+    }
+  }}
+/>
