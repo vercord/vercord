@@ -12,6 +12,17 @@ import {
 const COOKIE_NAME = 'active_theme';
 const DEFAULT_THEME = 'default';
 
+// useIsClient hook - widely recommended pattern for Next.js
+function useIsClient() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  return isClient;
+}
+
 function setThemeCookie(theme: string) {
   if (typeof window === 'undefined') return;
 
@@ -20,33 +31,19 @@ function setThemeCookie(theme: string) {
   }`;
 }
 
-function getThemeFromCookies(): string {
-  if (typeof document === 'undefined') return DEFAULT_THEME;
-
-  const cookie = document.cookie
-    .split('; ')
-    .find(row => row.startsWith(`${COOKIE_NAME}=`));
-
-  if (cookie) {
-    const cookieTheme = cookie.split('=')[1];
-    if (cookieTheme) return cookieTheme;
-  }
-
-  return DEFAULT_THEME;
-}
-
 type ThemeContextType = {
   activeTheme: string;
   setActiveTheme: (theme: string) => void;
+  ready: boolean;
 };
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ActiveThemeProvider({ children }: { children: ReactNode }) {
-  const [mounted, setMounted] = useState(false);
+  const isClient = useIsClient();
   const [activeTheme, setActiveTheme] = useState<string>(DEFAULT_THEME);
 
-  // Inject script to read theme from cookie before React hydration
+  // Server-inserted script - runs before hydration
   useServerInsertedHTML(() => {
     return (
       <script
@@ -56,7 +53,7 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
             try {
               const themeCookie = document.cookie
                 .split('; ')
-                .find(row => row.startsWith('active_theme='));
+                .find(row => row.startsWith('${COOKIE_NAME}='));
               if (themeCookie) {
                 const theme = themeCookie.split('=')[1];
                 document.body.classList.add('theme-' + theme);
@@ -69,19 +66,30 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
     );
   });
 
-  // Only run once after hydration is complete
+  // Only run after hydration is complete to set initial theme
   useEffect(() => {
-    const initialTheme = getThemeFromCookies();
-    setActiveTheme(initialTheme);
-    setMounted(true);
-  }, []);
+    if (!isClient) return;
+
+    const cookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith(`${COOKIE_NAME}=`));
+
+    if (cookie) {
+      const cookieTheme = cookie.split('=')[1];
+      if (cookieTheme && cookieTheme !== activeTheme) {
+        setActiveTheme(cookieTheme);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isClient]);
 
   // Apply theme changes after component is mounted
   useEffect(() => {
-    if (!mounted) return;
+    if (!isClient) return;
 
     setThemeCookie(activeTheme);
 
+    // Update body classes
     Array.from(document.body.classList)
       .filter(className => className.startsWith('theme-'))
       .forEach(className => {
@@ -92,10 +100,17 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
     if (activeTheme.endsWith('-scaled')) {
       document.body.classList.add('theme-scaled');
     }
-  }, [activeTheme, mounted]);
+  }, [activeTheme, isClient]);
 
   return (
-    <ThemeContext.Provider value={{ activeTheme, setActiveTheme }}>
+    <ThemeContext.Provider
+      value={{
+        activeTheme,
+        setActiveTheme,
+        // Only expose ready state when we know client hydration is complete
+        ready: isClient
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
