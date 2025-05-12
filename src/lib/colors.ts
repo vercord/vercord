@@ -46,6 +46,14 @@ export const baseColors = [
       light: 'oklch(0.62 0.08 65.54)',
       dark: 'oklch(0.73 0.06 66.7)'
     }
+  },
+  {
+    name: 'amethyst-haze',
+    label: 'Amethyst Haze',
+    activeColor: {
+      light: 'oklch(0.61 0.08 299.73)',
+      dark: 'oklch(0.71 0.08 302.05)'
+    }
   }
 ] as const;
 
