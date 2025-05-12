@@ -8,6 +8,14 @@ export const baseColors = [
     }
   },
   {
+    name: 'mono',
+    label: 'Mono',
+    activeColor: {
+      light: 'oklch(0.56 0 0)',
+      dark: 'oklch(0.56 0 0)'
+    }
+  },
+  {
     name: 't3chat',
     label: 'T3 Chat',
     activeColor: {
