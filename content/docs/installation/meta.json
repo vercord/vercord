@@ -1,0 +1,9 @@
+{
+    "title": "installation",
+    "pages": [
+        "requirements",
+        "setup-vercel",
+        "setup-discord",
+        "environment"
+    ]
+}
