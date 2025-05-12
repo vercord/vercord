@@ -5,7 +5,7 @@ import { type Metadata } from 'next';
 import { Geist } from 'next/font/google';
 import type { ReactNode } from 'react';
 
-import { Providers } from '@/components/providers/providers';
+import { ActiveThemeProvider } from '@/components/themes/active-theme';
 import { description, title } from '@/consts/metadata';
 
 const geist = Geist({
@@ -31,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         suppressHydrationWarning
       >
         <RootProvider>
-          <Providers>{children}</Providers>
+          <ActiveThemeProvider>{children}</ActiveThemeProvider>
         </RootProvider>
       </body>
     </html>
