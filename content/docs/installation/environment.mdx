@@ -8,7 +8,8 @@ import { TypeTable } from 'fumadocs-ui/components/type-table';
 
 # Environment Variables
 
-These are the environment variables you need to set for Vercord to work:
+These are the environment variables you need to set at your Vercord instance in
+Vercel for it to work
 
 <TypeTable
   type={{
@@ -26,3 +27,12 @@ These are the environment variables you need to set for Vercord to work:
     }
   }}
 />
+
+## Security Considerations
+
+- Store your webhook secret securely with a unique value for each integration
+- All incoming webhooks are validated using HMAC-SHA1 signatures
+- Webhook payloads are validated against a strict schema to ensure data
+  integrity
+
+Then just redeploy your Vercord instance and you're done!
