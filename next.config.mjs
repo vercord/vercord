@@ -16,6 +16,12 @@ const config = {
         hostname: 'pbgegowfpr.ufs.sh',
         port: '',
         pathname: '/f/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'vercel.com',
+        port: '',
+        pathname: '/button'
       }
     ]
   }
