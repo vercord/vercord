@@ -8,22 +8,6 @@ const config = {
   reactStrictMode: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'
-  },
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'pbgegowfpr.ufs.sh',
-        port: '',
-        pathname: '/f/**'
-      },
-      {
-        protocol: 'https',
-        hostname: 'vercel.com',
-        port: '',
-        pathname: '/button'
-      }
-    ]
   }
 };
 
