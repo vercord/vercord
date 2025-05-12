@@ -1,5 +1,8 @@
+'use client';
+
 import { BookOpen, Github } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 import { Footer } from '@/components/core/footer';
 import { LogoSection } from '@/components/core/logo-section';
@@ -8,6 +11,16 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 export default function Home() {
+  const [displayText, setDisplayText] = useState('Vercel');
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDisplayText(prev => (prev === 'Vercel' ? 'NextJS' : 'Vercel'));
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main className='flex flex-1 flex-col items-center justify-center gap-8 p-4 sm:gap-12 md:p-6'>
       <AnimatedGridPattern
@@ -25,11 +38,13 @@ export default function Home() {
 
         <div className='mx-auto flex max-w-md flex-col items-center justify-center gap-4 px-2 text-center sm:max-w-2xl sm:gap-6 sm:px-4'>
           <h1 className='text-foreground text-xl font-bold sm:text-2xl md:text-3xl'>
-            Connect Vercel to Discord
+            Connect{' '}
+            <span className='transition-all duration-500'>{displayText}</span>{' '}
+            to Discord
           </h1>
           <p className='text-muted-foreground text-sm sm:text-base'>
-            Seamlessly integrate your Vercel deployment notifications with
-            Discord. Stay updated on every deployment status in real-time.
+            Seamlessly integrate your {displayText} deployment notifications
+            with Discord. Stay updated on every deployment status in real-time.
           </p>
           <div className='flex flex-col gap-3 sm:flex-row sm:gap-4'>
             <Button
