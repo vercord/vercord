@@ -3,9 +3,12 @@ import { type FC } from 'react';
 
 export const Footer: FC = function Footer() {
   return (
-    <footer className='fixed bottom-4 w-full px-4' aria-label='Page footer'>
+    <footer
+      className='w-full max-w-full px-4 pt-6 pb-4 sm:fixed sm:bottom-4'
+      aria-label='Page footer'
+    >
       <div className='flex flex-col items-center gap-2'>
-        <p className='text-muted-foreground text-center text-sm text-balance drop-shadow-[0_0_8px_rgba(156,163,175,0.5)]'>
+        <p className='text-muted-foreground text-center text-xs text-balance drop-shadow-[0_0_8px_rgba(156,163,175,0.5)] sm:text-sm'>
           This site is not affiliated with or endorsed by{' '}
           <Link
             href='https://vercel.com'

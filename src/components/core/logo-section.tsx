@@ -8,20 +8,20 @@ const LogoFallback = () => (
 );
 
 const DiscordLogoFallback = () => (
-  <div className='bg-muted/20 h-[50px] w-[50px] animate-pulse rounded-lg' />
+  <div className='bg-muted/20 h-[30px] w-[30px] animate-pulse rounded-lg' />
 );
 
 export const LogoSection: FC = function LogoSection() {
   return (
     <section
       aria-label='Product logos'
-      className='relative mb-4 flex flex-wrap items-center justify-center gap-6 px-4'
+      className='relative mb-4 flex flex-wrap items-center justify-center gap-4 px-4'
     >
       <Suspense fallback={<LogoFallback />}>
         <LogoSwitcher />
       </Suspense>
       <span
-        className='text-muted-foreground text-3xl font-bold'
+        className='text-muted-foreground text-2xl font-bold'
         aria-hidden='true'
       >
         ×
@@ -32,8 +32,8 @@ export const LogoSection: FC = function LogoSection() {
             className='relative drop-shadow-[0_0_0.3rem_rgba(88,101,242,0.4)]'
             src='/discord.svg'
             alt='Discord Logo'
-            width={50}
-            height={50}
+            width={40}
+            height={40}
             priority
           />
         </Suspense>
