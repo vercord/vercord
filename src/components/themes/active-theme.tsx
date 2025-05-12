@@ -1,5 +1,6 @@
 'use client';
 
+import { useServerInsertedHTML } from 'next/navigation';
 import {
   createContext,
   type ReactNode,
@@ -19,6 +20,21 @@ function setThemeCookie(theme: string) {
   }`;
 }
 
+function getThemeFromCookies(): string {
+  if (typeof document === 'undefined') return DEFAULT_THEME;
+
+  const cookie = document.cookie
+    .split('; ')
+    .find(row => row.startsWith(`${COOKIE_NAME}=`));
+
+  if (cookie) {
+    const cookieTheme = cookie.split('=')[1];
+    if (cookieTheme) return cookieTheme;
+  }
+
+  return DEFAULT_THEME;
+}
+
 type ThemeContextType = {
   activeTheme: string;
   setActiveTheme: (theme: string) => void;
@@ -27,38 +43,12 @@ type ThemeContextType = {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ActiveThemeProvider({ children }: { children: ReactNode }) {
+  const [mounted, setMounted] = useState(false);
   const [activeTheme, setActiveTheme] = useState<string>(DEFAULT_THEME);
 
-  useEffect(() => {
-    const cookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith(`${COOKIE_NAME}=`));
-    if (cookie) {
-      const cookieTheme = cookie.split('=')[1];
-      if (cookieTheme && cookieTheme !== activeTheme) {
-        setActiveTheme(cookieTheme);
-      }
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
-    setThemeCookie(activeTheme);
-
-    Array.from(document.body.classList)
-      .filter(className => className.startsWith('theme-'))
-      .forEach(className => {
-        document.body.classList.remove(className);
-      });
-
-    document.body.classList.add(`theme-${activeTheme}`);
-    if (activeTheme.endsWith('-scaled')) {
-      document.body.classList.add('theme-scaled');
-    }
-  }, [activeTheme]);
-
-  return (
-    <ThemeContext.Provider value={{ activeTheme, setActiveTheme }}>
+  // Inject script to read theme from cookie before React hydration
+  useServerInsertedHTML(() => {
+    return (
       <script
         dangerouslySetInnerHTML={{
           __html: `
@@ -76,6 +66,36 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
         `
         }}
       />
+    );
+  });
+
+  // Only run once after hydration is complete
+  useEffect(() => {
+    const initialTheme = getThemeFromCookies();
+    setActiveTheme(initialTheme);
+    setMounted(true);
+  }, []);
+
+  // Apply theme changes after component is mounted
+  useEffect(() => {
+    if (!mounted) return;
+
+    setThemeCookie(activeTheme);
+
+    Array.from(document.body.classList)
+      .filter(className => className.startsWith('theme-'))
+      .forEach(className => {
+        document.body.classList.remove(className);
+      });
+
+    document.body.classList.add(`theme-${activeTheme}`);
+    if (activeTheme.endsWith('-scaled')) {
+      document.body.classList.add('theme-scaled');
+    }
+  }, [activeTheme, mounted]);
+
+  return (
+    <ThemeContext.Provider value={{ activeTheme, setActiveTheme }}>
       {children}
     </ThemeContext.Provider>
   );
