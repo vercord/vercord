@@ -24,6 +24,18 @@ Vercel for it to work
       type: 'string',
       default: 'https://discord.com/api/webhooks/<id>/<token>',
       required: true
+    },
+    DISCORD_WEBHOOK_USERNAME: {
+      description: 'The username for the Discord webhook',
+      type: 'string',
+      default: 'Vercord',
+      required: false
+    },
+    DISCORD_WEBHOOK_AVATAR_URL: {
+      description: 'The avatar URL for the Discord webhook',
+      type: 'string',
+      default: 'https://vercord.dev/logo.png',
+      required: false
     }
   }}
 />

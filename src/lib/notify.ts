@@ -4,9 +4,10 @@ import { EMOJIS, getStateProperty } from '@/consts/discord';
 import { env } from '@/env';
 import { type VercelWebhook, type WebhookType } from '@/schemas/vercel';
 
-// Define bot info centrally
-const DISCORD_BOT_USERNAME = 'Vercord';
-const DISCORD_BOT_AVATAR_URL =
+// Define bot info centrally, using env variables with fallbacks
+const DISCORD_WEBHOOK_USERNAME = env.DISCORD_WEBHOOK_USERNAME || 'Vercord';
+const DISCORD_WEBHOOK_AVATAR_URL =
+  env.DISCORD_WEBHOOK_AVATAR_URL ||
   'https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png';
 
 /**
@@ -233,8 +234,8 @@ export async function sendDiscordNotification(embed: Embed): Promise<void> {
 
     try {
       const hook = new Webhook(env.DISCORD_WEBHOOK_URL);
-      hook.setUsername(DISCORD_BOT_USERNAME);
-      hook.setAvatarUrl(DISCORD_BOT_AVATAR_URL);
+      hook.setUsername(DISCORD_WEBHOOK_USERNAME);
+      hook.setAvatarUrl(DISCORD_WEBHOOK_AVATAR_URL);
       hook.addEmbed(embed);
 
       await hook.send();
@@ -245,7 +246,9 @@ export async function sendDiscordNotification(embed: Embed): Promise<void> {
         return sendRequest(attempt);
       }
 
-      if (attempt === MAX_RETRIES - 1) throw error;
+      if (attempt === MAX_RETRIES - 1) {
+        throw error;
+      }
 
       const backoffTime = calculateBackoff(attempt + 1);
       await new Promise(resolve => setTimeout(resolve, backoffTime));

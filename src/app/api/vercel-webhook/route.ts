@@ -3,11 +3,18 @@ import {
   createMessageFromWebhook,
   sendDiscordNotification
 } from '@/lib/notify';
+import { checkRateLimit } from '@/lib/rate-limit';
 import { verifySignature } from '@/lib/verify';
 import { webhookSchema } from '@/schemas/vercel';
 
 export async function POST(req: Request) {
   try {
+    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    const rateLimitResult = await checkRateLimit(ip);
+    if (rateLimitResult) {
+      return rateLimitResult;
+    }
+
     const rawBody = await req.text();
     const signature = req.headers.get('x-vercel-signature');
 
@@ -30,10 +37,9 @@ export async function POST(req: Request) {
 
     return Response.json({ success: true, message: 'Webhook processed' });
   } catch (error) {
-    console.error(error);
     if (error instanceof Error) {
       return Response.json(
-        { success: false, error: error.message },
+        { success: false, error: 'Request processing failed' },
         { status: HttpStatusCode.BAD_REQUEST_400 }
       );
     }
@@ -58,7 +64,7 @@ export async function GET() {
   } catch (error) {
     if (error instanceof Error) {
       return Response.json(
-        { success: false, error: error.message },
+        { success: false, error: 'Internal server error' },
         { status: HttpStatusCode.INTERNAL_SERVER_ERROR_500 }
       );
     }
