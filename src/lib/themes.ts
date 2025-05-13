@@ -24,14 +24,6 @@ export const baseThemes = [
     }
   },
   {
-    name: 'retro-arcade',
-    label: 'Retro Arcade',
-    activeColor: {
-      light: 'oklch(0.59 0.2 355.89)',
-      dark: 'oklch(0.59 0.2 355.89)'
-    }
-  },
-  {
     name: 'claude',
     label: 'Claude',
     activeColor: {
@@ -69,14 +61,6 @@ export const baseThemes = [
     activeColor: {
       light: 'oklch(0.55 0.25 297.02)',
       dark: 'oklch(0.79 0.12 304.77)'
-    }
-  },
-  {
-    name: 'notebook',
-    label: 'Notebook',
-    activeColor: {
-      light: 'oklch(0.49 0 0)',
-      dark: 'oklch(0.76 0 0)'
     }
   }
 ] as const;
