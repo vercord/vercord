@@ -1,5 +1,6 @@
-import HttpStatusCode from '@/enums/http-status-codes';
 import { RateLimiterMemory } from 'rate-limiter-flexible';
+
+import HttpStatusCode from '@/enums/http-status-codes';
 
 // Create a memory-based rate limiter
 // This is suitable for serverless functions with limited execution context persistence
@@ -20,9 +21,8 @@ export async function checkRateLimit(
 ): Promise<Response | undefined> {
   try {
     await apiLimiter.consume(ip);
-    return undefined; // No rate limit exceeded
-  } catch (error) {
-    // Rate limit exceeded
+    return undefined;
+  } catch {
     return new Response(
       JSON.stringify({
         success: false,
