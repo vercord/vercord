@@ -18,7 +18,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { baseThemes } from '@/lib/themes';
 import { cn } from '@/lib/utils';
 
-export function ThemeSelector() {
+interface ThemeSelectorProps {
+  isModal?: boolean;
+}
+
+export function ThemeSelector({ isModal }: ThemeSelectorProps = {}) {
   const { activeTheme, setActiveTheme } = useThemeConfig();
   const [mounted, setMounted] = React.useState(false);
   const { setTheme, resolvedTheme: theme } = useTheme();
@@ -36,28 +40,30 @@ export function ThemeSelector() {
             Choose your style and color preferences
           </div>
         </div>
-        <div className='flex items-center gap-2'>
-          <Button
-            variant='ghost'
-            size='icon'
-            className='hover:bg-muted rounded-[0.5rem] transition-colors'
-            onClick={() => setTheme('system')}
-            aria-label='Reset to system theme'
-          >
-            <RepeatIcon className='size-4' />
-          </Button>
-          <Button
-            asChild
-            variant='ghost'
-            size='icon'
-            className='hover:bg-muted rounded-[0.5rem] transition-colors'
-            aria-label='Close theme selector'
-          >
-            <Link href='/'>
-              <XIcon className='size-4' />
-            </Link>
-          </Button>
-        </div>
+        {!isModal && (
+          <div className='flex items-center gap-2'>
+            <Button
+              variant='ghost'
+              size='icon'
+              className='hover:bg-muted rounded-[0.5rem] transition-colors'
+              onClick={() => setTheme('system')}
+              aria-label='Reset to system theme'
+            >
+              <RepeatIcon className='size-4' />
+            </Button>
+            <Button
+              asChild
+              variant='ghost'
+              size='icon'
+              className='hover:bg-muted rounded-[0.5rem] transition-colors'
+              aria-label='Close theme selector'
+            >
+              <Link href='/'>
+                <XIcon className='size-4' />
+              </Link>
+            </Button>
+          </div>
+        )}
       </div>
 
       <div className='mt-6 flex flex-col space-y-6'>
@@ -160,6 +166,21 @@ export function ThemeSelector() {
             )}
           </div>
         </div>
+
+        {isModal && (
+          <div className='flex justify-center'>
+            <Button
+              variant='outline'
+              size='sm'
+              onClick={() => setTheme('system')}
+              className='px-4'
+              aria-label='Reset to system theme'
+            >
+              <RepeatIcon className='mr-2 size-4' />
+              Reset Theme
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

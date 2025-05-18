@@ -16,7 +16,13 @@ const geist = Geist({
   subsets: ['latin']
 });
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function Layout({
+  children,
+  modal
+}: {
+  children: ReactNode;
+  modal: ReactNode;
+}) {
   return (
     <html lang='en' className={geist.className} suppressHydrationWarning>
       <body
@@ -24,7 +30,10 @@ export default function Layout({ children }: { children: ReactNode }) {
         suppressHydrationWarning
       >
         <RootProvider>
-          <ActiveThemeProvider>{children}</ActiveThemeProvider>
+          <ActiveThemeProvider>
+            {children}
+            {modal}
+          </ActiveThemeProvider>
         </RootProvider>
       </body>
     </html>
