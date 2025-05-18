@@ -2,9 +2,6 @@ import { RateLimiterMemory } from 'rate-limiter-flexible';
 
 import HttpStatusCode from '@/enums/http-status-codes';
 
-// Create a memory-based rate limiter
-// This is suitable for serverless functions with limited execution context persistence
-// For production with multiple instances, consider using Redis or another distributed store
 const apiLimiter = new RateLimiterMemory({
   points: 10, // Number of points
   duration: 60, // Per second

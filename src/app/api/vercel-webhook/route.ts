@@ -3,7 +3,7 @@ import {
   createMessageFromWebhook,
   sendDiscordNotification
 } from '@/lib/notify';
-import { checkRateLimit } from '@/lib/rate-limit';
+import { checkRateLimit } from '@/lib/ratelimit';
 import { verifySignature } from '@/lib/verify';
 import { webhookSchema } from '@/schemas/vercel';
 
