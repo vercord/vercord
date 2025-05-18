@@ -7,7 +7,7 @@ export function createMetadata(override: Metadata): Metadata {
       title: override.title ?? undefined,
       description: override.description ?? undefined,
       url: 'https://vercord.lol',
-      images: 'https://vercord.lol/og.png',
+      images: 'https://vercord.lol/og.jpg',
       siteName: 'vercord.lol',
       ...override.openGraph
     },
@@ -16,7 +16,7 @@ export function createMetadata(override: Metadata): Metadata {
       creator: '@ogeperc',
       title: override.title ?? undefined,
       description: override.description ?? undefined,
-      images: 'https://vercord.lol/og.png',
+      images: 'https://vercord.lol/og.jpg',
       ...override.twitter
     }
   };
