@@ -1,11 +1,11 @@
 {
-    "title": "docs",
-    "pages": [
-        "index",
-        "---Installation---",
-        "...installation",
-        "---Useful Links---",
-        "[ArrowUpRight][Vercel](https://vercel.com)",
-        "[ArrowUpRight][Discord](https://discord.com/app)"
-    ]
+  "title": "docs",
+  "pages": [
+    "index",
+    "---Installation---",
+    "...installation",
+    "---Useful Links---",
+    "[ArrowUpRight][Vercel](https://vercel.com)",
+    "[ArrowUpRight][Discord](https://discord.com/app)"
+  ]
 }
