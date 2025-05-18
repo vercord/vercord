@@ -8,6 +8,7 @@ import { docs } from '@/.source';
 export const source = loader({
   baseUrl: '/docs',
   source: docs.toFumadocsSource(),
+
   icon(icon) {
     if (!icon) {
       return;
