@@ -1,7 +1,7 @@
 import { generateOGImage } from 'fumadocs-ui/og';
 import { notFound } from 'next/navigation';
 
-import { title } from '@/consts/metadata';
+import { title } from '@/lib/metadata';
 import { source } from '@/lib/source';
 
 export async function GET(

@@ -1,6 +1,6 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 
-import { githubUrl } from '@/consts/metadata';
+import { githubUrl } from '@/lib/metadata';
 
 /**
  * Shared layout configurations

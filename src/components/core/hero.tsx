@@ -4,7 +4,7 @@ import { BookOpen, Github } from 'lucide-react';
 import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
-import { githubUrl } from '@/consts/metadata';
+import { githubUrl } from '@/lib/metadata';
 
 export function Hero() {
   return (
