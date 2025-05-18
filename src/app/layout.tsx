@@ -6,10 +6,10 @@ import type { ReactNode } from 'react';
 
 import { ActiveThemeProvider } from '@/components/themes/active-theme';
 import {
-  description,
-  title,
   baseUrlProd,
-  createMetadata
+  createMetadata,
+  description,
+  title
 } from '@/lib/metadata';
 
 const geist = Geist({
