@@ -1,6 +1,6 @@
 'use client';
+
 import {
-  CheckIcon,
   MonitorIcon,
   MoonIcon,
   RepeatIcon,
@@ -14,9 +14,16 @@ import * as React from 'react';
 import { useThemeConfig } from '@/components/themes/active-theme';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select';
 import { Skeleton } from '@/components/ui/skeleton';
 import { baseThemes } from '@/lib/themes';
-import { cn } from '@/lib/utils';
 
 interface ThemeSelectorProps {
   isModal?: boolean;
@@ -72,38 +79,39 @@ export function ThemeSelector({ isModal }: ThemeSelectorProps = {}) {
           <Label className='text-muted-foreground text-xs font-medium'>
             Color Theme
           </Label>
-          <div className='flex flex-col gap-2.5'>
-            {baseThemes.map(color => {
-              const isActive = activeTheme === color.name;
-
-              return mounted ? (
-                <Button
-                  variant='outline'
-                  size='sm'
-                  key={color.name}
-                  onClick={() => setActiveTheme(color.name)}
-                  className={cn(
-                    'justify-start transition-all duration-200',
-                    isActive && 'border-primary dark:border-primary border-2'
-                  )}
-                  style={
-                    {
-                      '--theme-primary': `${
-                        color?.activeColor[theme === 'dark' ? 'dark' : 'light']
-                      }`
-                    } as React.CSSProperties
-                  }
-                >
-                  <span className='mr-2 flex size-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]'>
-                    {isActive && <CheckIcon className='size-3.5 text-white' />}
-                  </span>
-                  {color.label}
-                </Button>
-              ) : (
-                <Skeleton className='h-8 w-full' key={color.name} />
-              );
-            })}
-          </div>
+          {mounted ? (
+            <Select value={activeTheme} onValueChange={setActiveTheme}>
+              <SelectTrigger className='w-full'>
+                <SelectValue placeholder='Select a theme' />
+              </SelectTrigger>
+              <SelectContent>
+                <ScrollArea className='max-h-[240px]'>
+                  {baseThemes.map(color => (
+                    <SelectItem
+                      key={color.name}
+                      value={color.name}
+                      className='flex items-center'
+                    >
+                      <div className='flex items-center'>
+                        <span
+                          className='mr-2 inline-block size-4 rounded-full'
+                          style={{
+                            backgroundColor:
+                              color?.activeColor[
+                                theme === 'dark' ? 'dark' : 'light'
+                              ]
+                          }}
+                        />
+                        {color.label}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </ScrollArea>
+              </SelectContent>
+            </Select>
+          ) : (
+            <Skeleton className='h-10 w-full' />
+          )}
         </div>
 
         {/* Mode Selection */}
@@ -111,62 +119,38 @@ export function ThemeSelector({ isModal }: ThemeSelectorProps = {}) {
           <Label className='text-muted-foreground text-xs font-medium'>
             Appearance Mode
           </Label>
-          <div className='grid grid-cols-3 gap-2.5'>
-            {mounted ? (
-              <>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={() => setTheme('light')}
-                  className={cn(
-                    'transition-all duration-200',
-                    theme === 'light' && 'border-primary border-2'
-                  )}
-                  aria-label='Light mode'
-                >
-                  <SunIcon className='mr-2 size-4 -translate-x-1' />
-                  Light
-                </Button>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={() => setTheme('dark')}
-                  className={cn(
-                    'transition-all duration-200',
-                    theme === 'dark' &&
-                      'border-primary dark:border-primary border-2'
-                  )}
-                  aria-label='Dark mode'
-                >
-                  <MoonIcon className='mr-2 size-4 -translate-x-1' />
-                  Dark
-                </Button>
-                <Button
-                  variant='outline'
-                  size='sm'
-                  onClick={() => setTheme('system')}
-                  className={cn(
-                    'transition-all duration-200',
-                    theme !== 'light' &&
-                      theme !== 'dark' &&
-                      'border-primary dark:border-primary border-2'
-                  )}
-                  aria-label='System mode'
-                >
-                  <MonitorIcon className='mr-2 size-4 -translate-x-1' />
-                  System
-                </Button>
-              </>
-            ) : (
-              <>
-                <Skeleton className='h-8 w-full' />
-                <Skeleton className='h-8 w-full' />
-                <Skeleton className='h-8 w-full' />
-              </>
-            )}
-          </div>
+          {mounted ? (
+            <Select value={theme} onValueChange={setTheme}>
+              <SelectTrigger className='w-full'>
+                <SelectValue placeholder='Select a mode' />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='light'>
+                  <div className='flex items-center'>
+                    <SunIcon className='mr-2 size-4' />
+                    Light
+                  </div>
+                </SelectItem>
+                <SelectItem value='dark'>
+                  <div className='flex items-center'>
+                    <MoonIcon className='mr-2 size-4' />
+                    Dark
+                  </div>
+                </SelectItem>
+                <SelectItem value='system'>
+                  <div className='flex items-center'>
+                    <MonitorIcon className='mr-2 size-4' />
+                    System
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          ) : (
+            <Skeleton className='h-10 w-full' />
+          )}
         </div>
 
+        {/* Add reset button at the bottom for modal mode */}
         {isModal && (
           <div className='flex justify-center'>
             <Button
