@@ -33,5 +33,5 @@ export const baseUrl =
 
 export const baseUrlProd = 'https://vercord.lol';
 
-export const githubUrl = `https://github.com/vercord/portfolio`;
+export const githubUrl = `https://github.com/vercord/Vercord`;
 export const twitterUsername = 'ogeperc';
