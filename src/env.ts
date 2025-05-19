@@ -1,5 +1,5 @@
 import { createEnv } from '@t3-oss/env-nextjs';
-import { string } from 'zod';
+import { string } from 'zod/v4';
 
 export const env = createEnv({
   /*

@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
 /**
  * Base schemas for Vercel webhook payloads
@@ -6,7 +6,7 @@ import { z } from 'zod';
  */
 
 // Records and metadata can have varied structures, so keep it flexible
-export const deploymentMetaSchema = z.record(z.string().optional());
+export const deploymentMetaSchema = z.record(z.string(), z.string().optional());
 
 export const deploymentSchema = z
   .object({
