@@ -125,11 +125,11 @@ const LogoLink: FC<{
           ) : (
             <motion.div variants={hoverVariants} className='relative'>
               <Image
-                src={logo.src || '/placeholder.svg'}
+                src={logo.src}
                 alt={logo.alt}
                 width={logo.width}
                 height={logo.height}
-                priority={index === 0}
+                priority
                 onLoad={handleImageLoad}
                 onError={handleImageError}
                 className={`relative transition-all duration-300 ease-out ${logo.className || ''} ${imageLoaded ? 'opacity-100' : 'opacity-0'} ${logo.hoverEffect === 'brightness' ? 'group-hover:brightness-110' : ''} drop-shadow-sm group-hover:drop-shadow-lg`}
