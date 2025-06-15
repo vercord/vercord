@@ -1,4 +1,5 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
+import { BookIcon, PaletteIcon } from 'lucide-react';
 
 import { githubUrl } from '@/lib/metadata';
 
@@ -11,6 +12,20 @@ import { githubUrl } from '@/lib/metadata';
  */
 export const baseOptions: BaseLayoutProps = {
   githubUrl,
+
+  links: [
+    {
+      icon: <BookIcon />,
+      text: 'Documentation',
+      url: '/docs'
+    },
+    {
+      icon: <PaletteIcon />,
+      text: 'Themes',
+      url: '/theme'
+    }
+  ],
+
   nav: {
     title: (
       <>
