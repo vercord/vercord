@@ -9,8 +9,10 @@ import {
   useState
 } from 'react';
 
+import { baseThemes } from '@/lib/themes';
+
 const COOKIE_NAME = 'active_theme';
-const DEFAULT_THEME = 'default';
+const DEFAULT_THEME = baseThemes[0].name;
 
 // useIsClient hook - widely recommended pattern for Next.js
 function useIsClient() {
@@ -79,6 +81,9 @@ export function ActiveThemeProvider({ children }: { children: ReactNode }) {
       if (cookieTheme && cookieTheme !== activeTheme) {
         setActiveTheme(cookieTheme);
       }
+    } else if (activeTheme !== DEFAULT_THEME) {
+      // If no cookie and activeTheme is not default, reset to default
+      setActiveTheme(DEFAULT_THEME);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isClient]);
