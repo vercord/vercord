@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 export default function Home() {
   return (
-    <main className='flex flex-1 flex-col items-center justify-center gap-8 p-4 sm:gap-12 md:p-6'>
+    <main className='flex flex-1 flex-col items-center justify-center gap-4 p-2 sm:gap-6 md:p-4'>
       <AnimatedGridPattern
         maxOpacity={0.1}
         duration={3}
@@ -17,7 +17,7 @@ export default function Home() {
         )}
       />
 
-      <div className='flex w-full flex-1 flex-col items-center justify-center gap-4 sm:gap-6'>
+      <div className='flex w-full flex-1 flex-col items-center justify-center gap-2 sm:gap-3'>
         <LogoSection />
         <Hero />
       </div>
