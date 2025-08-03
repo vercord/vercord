@@ -6,7 +6,8 @@ DevOps workflow with immediate visibility into your deployment pipeline.
 
 # Documentation
 
-[Full documentation](https://www.vercord.lol/) [LLMs](https://www.vercord.lol/)
+[Full documentation](https://www.vercord.lol/)
+[LLMs](https://www.vercord.lol/llms-full.txt)
 
 ## License
 
