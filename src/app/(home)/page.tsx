@@ -1,6 +1,5 @@
 import { Footer } from '@/components/core/footer';
 import { Hero } from '@/components/core/hero';
-import { LogoSection } from '@/components/core/logo-section';
 import { AnimatedGridPattern } from '@/components/ui/animated-grid-pattern';
 import { cn } from '@/lib/utils';
 
@@ -17,8 +16,7 @@ export default function Home() {
         )}
       />
 
-      <div className='flex w-full flex-1 flex-col items-center justify-center gap-2 sm:gap-3'>
-        <LogoSection />
+      <div className='flex w-full flex-1 flex-col items-center justify-center'>
         <Hero />
       </div>
 
