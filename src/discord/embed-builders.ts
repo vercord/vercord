@@ -123,13 +123,6 @@ function addDeploymentFields(
     inline: true
   });
 
-  // Add spacer to break the row for GitHub fields
-  embed.addField({
-    name: '\u200b',
-    value: '\u200b',
-    inline: true
-  });
-
   if (deployment.id) {
     embed.setFooter({ text: `Deployment ${deployment.id}` });
   }
@@ -141,6 +134,13 @@ function addGitHubFields(embed: Embed, deployment: Deployment): void {
 
   const commitUrl = `https://github.com/${meta.githubCommitOrg}/${meta.githubCommitRepo}/commit/${meta.githubCommitSha}`;
   const shortSha = meta.githubCommitSha?.slice(0, 7);
+
+  // Add blank field to break row and start fresh for GitHub fields
+  embed.addField({
+    name: '\u200b',
+    value: '\u200b',
+    inline: false
+  });
 
   embed.addField({
     name: `${EMOJIS.BRANCH} Branch`,
