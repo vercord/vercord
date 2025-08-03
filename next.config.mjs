@@ -9,17 +9,6 @@ const config = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production'
   },
-  images: {
-    dangerouslyAllowSVG: true,
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'chmgukzv37.ufs.sh',
-        port: '',
-        pathname: '/f/**'
-      }
-    ]
-  },
   async rewrites() {
     return [
       {

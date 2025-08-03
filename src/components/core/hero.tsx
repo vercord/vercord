@@ -11,8 +11,9 @@ export function Hero() {
     <div className='mx-auto flex max-w-md flex-col items-center justify-center gap-6 px-2 text-center sm:max-w-2xl sm:gap-8 sm:px-4'>
       <div className='space-y-4'>
         <h1 className='text-foreground text-2xl font-bold sm:text-3xl md:text-4xl lg:text-5xl'>
-          Connect <span className='text-primary font-bold'>Vercel</span> to
-          Discord
+          Connect{' '}
+          <span className='font-bold text-black dark:text-white'>Vercel</span>{' '}
+          to <span className='font-bold text-[#5865F2]'>Discord</span>
         </h1>
         <p className='text-muted-foreground mx-auto max-w-lg text-base sm:text-lg'>
           Seamlessly integrate your Vercel deployment notifications with
