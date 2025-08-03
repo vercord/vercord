@@ -10,7 +10,11 @@
     "project": true
   },
   "plugins": ["@typescript-eslint", "simple-import-sort", "prettier"],
-  "ignorePatterns": ["src/components/ui/**", "src/generated/**"],
+  "ignorePatterns": [
+    "src/components/ui/**",
+    "src/generated/**",
+    "next.config.mjs"
+  ],
   "rules": {
     "@typescript-eslint/consistent-type-imports": [
       "error",
