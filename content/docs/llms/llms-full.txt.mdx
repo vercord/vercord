@@ -1,0 +1,46 @@
+---
+title: llms-full.txt
+description: Get all documentation content in a single text response
+icon: FileText
+---
+
+# LLMs Full Text
+
+Access all documentation pages combined into one text response at
+`/llms-full.txt`.
+
+[Click here](https://vercord.lol/llms-full.txt) to go to the 'llms-full.txt'
+page.
+
+## Usage
+
+```
+GET /llms-full.txt
+```
+
+Returns all pages with this format:
+
+```
+# Page Title
+URL: /page-url
+
+Page description
+
+Page content...
+
+# Next Page Title
+URL: /next-page-url
+
+Next page description
+
+Next page content...
+```
+
+## How it works
+
+1. Fetches all documentation pages from the source
+2. Processes each page through the `getLLMText` function
+3. Combines them with double newline separators
+4. Returns as plain text response
+
+The response is cached forever (`revalidate = false`) for performance.

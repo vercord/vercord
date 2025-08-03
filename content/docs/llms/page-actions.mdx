@@ -1,0 +1,32 @@
+---
+title: Page Actions
+description: Copy content and open in AI tools from any documentation page
+icon: MousePointer
+---
+
+# Page Actions
+
+Two buttons on every documentation page: "Copy Markdown" and "Open" dropdown.
+
+## Copy Markdown Button
+
+Copies the page's raw content to clipboard.
+
+1. Fetches content from `[page-url].mdx`
+2. Caches the result for subsequent copies
+3. Copies to clipboard using Clipboard API
+4. Shows check icon when complete
+
+## Open Dropdown
+
+Opens the current page in external tools:
+
+| Option              | Action                                     |
+| ------------------- | ------------------------------------------ |
+| **Open in GitHub**  | Links to source file in repository         |
+| **Open in ChatGPT** | Opens ChatGPT with page content pre-loaded |
+| **Open in Claude**  | Opens Claude with page content pre-loaded  |
+| **Open in T3 Chat** | Opens T3 Chat with page content pre-loaded |
+
+AI tools receive a prompt: "Read [page-url].mdx, I want to ask questions about
+it."

@@ -1,0 +1,37 @@
+---
+title: '.mdx'
+description: Get raw page content by adding .mdx to any documentation URL
+icon: Code
+---
+
+# MDX Endpoint
+
+Append `.mdx` to any documentation page URL to get its raw content.
+
+## Usage
+
+```
+/docs → /docs.mdx
+/docs/installation/requirements → /docs/installation/requirements.mdx
+```
+
+## Response Format
+
+```
+# Page Title
+URL: /page-url
+
+Page description
+
+Processed page content...
+```
+
+## How it works
+
+1. Uses dynamic route `llms.mdx/[[...slug]]/route.ts`
+2. Matches the slug to find the corresponding page
+3. Processes content through `getLLMText` function
+4. Returns formatted text response
+5. Returns 404 if page doesn't exist
+
+All routes are statically generated at build time for performance.
