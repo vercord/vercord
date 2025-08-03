@@ -1,11 +1,16 @@
-import { RateLimiterMemory } from 'rate-limiter-flexible';
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
 
 import HttpStatusCode from '@/enums/http-status-codes';
 
-const apiLimiter = new RateLimiterMemory({
-  points: 10, // Number of points
-  duration: 60, // Per second
-  blockDuration: 60 // Block for 1 minute if exceeded
+const redis = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL!,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN!
+});
+
+const ratelimit = new Ratelimit({
+  redis,
+  limiter: Ratelimit.slidingWindow(10, '60 s') // 10 requests per 60 seconds
 });
 
 /**
@@ -16,10 +21,9 @@ const apiLimiter = new RateLimiterMemory({
 export async function checkRateLimit(
   ip: string
 ): Promise<Response | undefined> {
-  try {
-    await apiLimiter.consume(ip);
-    return undefined;
-  } catch {
+  const { success } = await ratelimit.limit(ip);
+
+  if (!success) {
     return new Response(
       JSON.stringify({
         success: false,
@@ -34,4 +38,6 @@ export async function checkRateLimit(
       }
     );
   }
+
+  return undefined;
 }
