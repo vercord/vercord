@@ -26,14 +26,6 @@ export default async function Page(props: {
       <DocsTitle>{page.data.title}</DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
 
-      <div className='flex flex-row items-center gap-2 border-b pb-4'>
-        <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
-        <ViewOptions
-          markdownUrl={`${page.url}.mdx`}
-          githubUrl={`https://github.com/vercord/vercord/blob/master/content/docs/${params.slug?.join('/') ?? 'index'}.mdx`}
-        />
-      </div>
-
       <DocsBody>
         <MDXContent
           components={getMDXComponents({
@@ -41,6 +33,14 @@ export default async function Page(props: {
             a: createRelativeLink(source, page)
           })}
         />
+
+        <div className='flex flex-row items-center gap-2 border-b pb-4'>
+          <LLMCopyButton markdownUrl={`${page.url}.mdx`} />
+          <ViewOptions
+            markdownUrl={`${page.url}.mdx`}
+            githubUrl={`https://github.com/vercord/vercord/blob/master/content/docs/${params.slug?.join('/') ?? 'index'}.mdx`}
+          />
+        </div>
       </DocsBody>
     </DocsPage>
   );
