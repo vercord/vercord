@@ -123,6 +123,13 @@ function addDeploymentFields(
     inline: true
   });
 
+  // Add spacer to break the row for GitHub fields
+  embed.addField({
+    name: '\u200b',
+    value: '\u200b',
+    inline: true
+  });
+
   if (deployment.id) {
     embed.setFooter({ text: `Deployment ${deployment.id}` });
   }
