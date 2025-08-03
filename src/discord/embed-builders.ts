@@ -97,21 +97,15 @@ function setDeploymentDescription(
 ): void {
   const meta = deployment?.meta;
 
-  // Create a comprehensive but compact description
+  // Clean, focused description without cramming everything
   let description = `**${deployment.name}** deployed to **${meta?.target || 'production'}**`;
 
-  // Add GitHub info in a clean format
-  if (meta?.githubCommitRef && meta?.githubCommitSha) {
-    const shortSha = meta.githubCommitSha.slice(0, 7);
-    const commitUrl = `https://github.com/${meta.githubCommitOrg}/${meta.githubCommitRepo}/commit/${meta.githubCommitSha}`;
-    description += `\n${EMOJIS.BRANCH} \`${meta.githubCommitRef}\` ${EMOJIS.COMMIT} [\`${shortSha}\`](${commitUrl})`;
-  }
-
-  // Add build error if exists (truncated for readability)
+  // Add build error if exists (truncated for Discord limits)
   if (webhook.type === 'deployment.error' && meta?.buildError) {
+    const maxErrorLength = 500; // Leave room for other content
     const errorText =
-      meta.buildError.length > 300
-        ? meta.buildError.slice(0, 300) + '...'
+      meta.buildError.length > maxErrorLength
+        ? meta.buildError.slice(0, maxErrorLength) + '...'
         : meta.buildError;
     description += `\n\n**Build Error:**\n\`\`\`\n${errorText}\`\`\``;
   }
@@ -127,58 +121,65 @@ function addDeploymentFields(
 ): void {
   const meta = deployment?.meta;
 
-  // Add commit message if it exists and is reasonable length
-  if (meta?.githubCommitMessage && meta.githubCommitMessage.length < 150) {
+  // Add GitHub branch and commit info with proper spacing - 3 inline fields per row
+  if (meta?.githubCommitRef && meta?.githubCommitSha) {
+    const commitUrl = `https://github.com/${meta.githubCommitOrg}/${meta.githubCommitRepo}/commit/${meta.githubCommitSha}`;
+    const shortSha = meta.githubCommitSha.slice(0, 7);
+
+    embed.addField({
+      name: `${EMOJIS.BRANCH} Branch`,
+      value: `\`${meta.githubCommitRef}\``,
+      inline: true
+    });
+
+    embed.addField({
+      name: `${EMOJIS.COMMIT} Commit`,
+      value: `[\`${shortSha}\`](${commitUrl})`,
+      inline: true
+    });
+
+    // Add environment in the third column to complete the row
+    embed.addField({
+      name: `${EMOJIS.ENV} Environment`,
+      value: meta?.target || 'production',
+      inline: true
+    });
+  }
+
+  // Always add commit message if it exists, with Discord field limit (1024 chars)
+  if (meta?.githubCommitMessage) {
+    const maxCommitLength = 1000; // Leave some buffer for formatting
+    const commitMessage =
+      meta.githubCommitMessage.length > maxCommitLength
+        ? meta.githubCommitMessage.slice(0, maxCommitLength) + '...'
+        : meta.githubCommitMessage;
+
     embed.addField({
       name: `${EMOJIS.MESSAGE} Commit Message`,
-      value: `*${meta.githubCommitMessage}*`,
+      value: `\`\`\`\n${commitMessage}\`\`\``,
       inline: false
     });
   }
 
-  // Create action buttons row
-  const actionFields = [];
-
-  // Add preview/deployment URL
+  // Add deployment URL if available - full width for better readability
   if (links?.deployment) {
     const isLive =
       webhookType === 'deployment.succeeded' ||
       webhookType === 'deployment.ready';
-    const label = isLive ? 'View Live Site' : 'View Deployment';
+    const label = isLive ? 'Preview URL' : 'Deployment URL';
     const hostname = new URL(links.deployment).hostname;
 
-    actionFields.push({
+    embed.addField({
       name: `${EMOJIS.URL} ${label}`,
       value: `[${hostname}](${links.deployment})`,
-      inline: true
+      inline: false
     });
   }
-
-  // Add project dashboard link
-  if (links?.project) {
-    actionFields.push({
-      name: `${EMOJIS.PROJECT} Dashboard`,
-      value: `[Open in Vercel](${links.project})`,
-      inline: true
-    });
-  }
-
-  // Add timestamp info
-  actionFields.push({
-    name: `${EMOJIS.DEPLOY} Duration`,
-    value: `Started ${new Date().toLocaleTimeString()}`,
-    inline: true
-  });
-
-  // Add all action fields
-  actionFields.forEach(field => {
-    embed.addField(field);
-  });
 
   // Clean footer with deployment ID
   if (deployment.id) {
     embed.setFooter({
-      text: `ID: ${deployment.id}`
+      text: `Deployment ${deployment.id}`
     });
   }
 }
