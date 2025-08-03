@@ -17,6 +17,12 @@ export function createDeploymentEmbed(webhook: VercelWebhook): Embed {
   const embed = new Embed();
 
   setBasicEmbedProperties(embed, webhook, `Deployment ${state}`);
+
+  // Make the title clickable for all deployment events
+  if (links.deployment) {
+    embed.setUrl(links.deployment);
+  }
+
   setDeploymentDescription(embed, webhook, state);
   addDeploymentFields(embed, deployment, links);
   addGitHubFields(embed, deployment);
@@ -156,14 +162,16 @@ function addDeploymentUrl(
   deploymentUrl?: string
 ): void {
   if (!deploymentUrl) return;
-  if (
-    webhookType !== 'deployment.succeeded' &&
-    webhookType !== 'deployment.ready'
-  )
-    return;
+
+  // Show deployment URL for all deployment events
+  // For succeeded/ready: "Preview URL", for others: "Deployment URL"
+  const fieldName =
+    webhookType === 'deployment.succeeded' || webhookType === 'deployment.ready'
+      ? `${EMOJIS.URL} Preview URL`
+      : `${EMOJIS.URL} Deployment URL`;
 
   embed.addField({
-    name: `${EMOJIS.URL} Preview URL`,
+    name: fieldName,
     value: `[${new URL(deploymentUrl).hostname}](${deploymentUrl})`,
     inline: false
   });
