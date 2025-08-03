@@ -23,10 +23,8 @@ export function createDeploymentEmbed(webhook: VercelWebhook): Embed {
     embed.setUrl(links.deployment);
   }
 
-  setDeploymentDescription(embed, webhook, state);
-  addDeploymentFields(embed, deployment, links);
-  addGitHubFields(embed, deployment);
-  addDeploymentUrl(embed, webhook.type, links.deployment);
+  setDeploymentDescription(embed, webhook, state, deployment);
+  addDeploymentFields(embed, deployment, links, webhook.type);
 
   return embed;
 }
@@ -94,13 +92,28 @@ function setBasicEmbedProperties(
 function setDeploymentDescription(
   embed: Embed,
   webhook: VercelWebhook,
-  state: string
+  state: string,
+  deployment: Deployment
 ): void {
-  const { deployment } = webhook.payload;
-  let description = `**Status**: ${state.charAt(0).toUpperCase() + state.slice(1)}`;
+  const meta = deployment?.meta;
 
-  if (webhook.type === 'deployment.error' && deployment?.meta.buildError) {
-    description += `\n**Error**: \`\`\`\n${deployment.meta.buildError}\`\`\``;
+  // Create a comprehensive but compact description
+  let description = `**${deployment.name}** deployed to **${meta?.target || 'production'}**`;
+
+  // Add GitHub info in a clean format
+  if (meta?.githubCommitRef && meta?.githubCommitSha) {
+    const shortSha = meta.githubCommitSha.slice(0, 7);
+    const commitUrl = `https://github.com/${meta.githubCommitOrg}/${meta.githubCommitRepo}/commit/${meta.githubCommitSha}`;
+    description += `\n${EMOJIS.BRANCH} \`${meta.githubCommitRef}\` ${EMOJIS.COMMIT} [\`${shortSha}\`](${commitUrl})`;
+  }
+
+  // Add build error if exists (truncated for readability)
+  if (webhook.type === 'deployment.error' && meta?.buildError) {
+    const errorText =
+      meta.buildError.length > 300
+        ? meta.buildError.slice(0, 300) + '...'
+        : meta.buildError;
+    description += `\n\n**Build Error:**\n\`\`\`\n${errorText}\`\`\``;
   }
 
   embed.setDescription(description);
@@ -109,79 +122,65 @@ function setDeploymentDescription(
 function addDeploymentFields(
   embed: Embed,
   deployment: Deployment,
-  links: Links
+  links: Links,
+  webhookType: string
 ): void {
-  embed.addField({
-    name: `${EMOJIS.PROJECT} Project`,
-    value: `[${deployment.name}](${links.project})`,
-    inline: true
-  });
-
-  embed.addField({
-    name: `${EMOJIS.ENV} Environment`,
-    value: deployment.meta.target || 'production',
-    inline: true
-  });
-
-  if (deployment.id) {
-    embed.setFooter({ text: `Deployment ${deployment.id}` });
-  }
-}
-
-function addGitHubFields(embed: Embed, deployment: Deployment): void {
   const meta = deployment?.meta;
-  if (!meta?.githubCommitRef) return;
 
-  const commitUrl = `https://github.com/${meta.githubCommitOrg}/${meta.githubCommitRepo}/commit/${meta.githubCommitSha}`;
-  const shortSha = meta.githubCommitSha?.slice(0, 7);
-
-  // Add blank field to break row and start fresh for GitHub fields
-  embed.addField({
-    name: '\u200b',
-    value: '\u200b',
-    inline: false
-  });
-
-  embed.addField({
-    name: `${EMOJIS.BRANCH} Branch`,
-    value: `\`${meta.githubCommitRef}\``,
-    inline: true
-  });
-
-  embed.addField({
-    name: `${EMOJIS.COMMIT} Commit`,
-    value: `[${shortSha}](${commitUrl})`,
-    inline: true
-  });
-
-  if (meta.githubCommitMessage) {
+  // Add commit message if it exists and is reasonable length
+  if (meta?.githubCommitMessage && meta.githubCommitMessage.length < 150) {
     embed.addField({
       name: `${EMOJIS.MESSAGE} Commit Message`,
-      value: `\`\`\`\n${meta.githubCommitMessage}\`\`\``,
+      value: `*${meta.githubCommitMessage}*`,
       inline: false
     });
   }
-}
 
-function addDeploymentUrl(
-  embed: Embed,
-  webhookType: string,
-  deploymentUrl?: string
-): void {
-  if (!deploymentUrl) return;
+  // Create action buttons row
+  const actionFields = [];
 
-  // Show deployment URL for all deployment events
-  // For succeeded/ready: "Preview URL", for others: "Deployment URL"
-  const fieldName =
-    webhookType === 'deployment.succeeded' || webhookType === 'deployment.ready'
-      ? `${EMOJIS.URL} Preview URL`
-      : `${EMOJIS.URL} Deployment URL`;
+  // Add preview/deployment URL
+  if (links?.deployment) {
+    const isLive =
+      webhookType === 'deployment.succeeded' ||
+      webhookType === 'deployment.ready';
+    const label = isLive ? 'View Live Site' : 'View Deployment';
+    const hostname = new URL(links.deployment).hostname;
 
-  embed.addField({
-    name: fieldName,
-    value: `[${new URL(deploymentUrl).hostname}](${deploymentUrl})`,
-    inline: false
+    actionFields.push({
+      name: `${EMOJIS.URL} ${label}`,
+      value: `[${hostname}](${links.deployment})`,
+      inline: true
+    });
+  }
+
+  // Add project dashboard link
+  if (links?.project) {
+    actionFields.push({
+      name: `${EMOJIS.PROJECT} Dashboard`,
+      value: `[Open in Vercel](${links.project})`,
+      inline: true
+    });
+  }
+
+  // Add timestamp info
+  actionFields.push({
+    name: `${EMOJIS.DEPLOY} Duration`,
+    value: `Started ${new Date().toLocaleTimeString()}`,
+    inline: true
   });
+
+  // Add all action fields
+  actionFields.forEach(field => {
+    embed.addField(field);
+  });
+
+  // Clean footer with deployment ID
+  if (deployment.id) {
+    embed.setFooter({
+      text: `ID: ${deployment.id}`
+    });
+  }
 }
 
 function formatEventName(eventType: string): string {
