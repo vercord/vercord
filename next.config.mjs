@@ -19,6 +19,14 @@ const config = {
         pathname: '/f/**'
       }
     ]
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/docs/:path*.mdx',
+        destination: '/llms.mdx/:path*'
+      }
+    ];
   }
 };
 
