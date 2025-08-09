@@ -127,20 +127,20 @@ function addDeploymentFields(
     const shortSha = meta.githubCommitSha.slice(0, 7);
 
     embed.addField({
-      name: `\`${EMOJIS.BRANCH}\` Branch`,
+      name: `${EMOJIS.BRANCH} Branch`,
       value: `\`${meta.githubCommitRef}\``,
       inline: true
     });
 
     embed.addField({
-      name: `\`${EMOJIS.COMMIT}\` Commit`,
+      name: `${EMOJIS.COMMIT} Commit`,
       value: `[\`${shortSha}\`](${commitUrl})`,
       inline: true
     });
 
     // Add environment in the third column to complete the row
     embed.addField({
-      name: `\`${EMOJIS.ENV}\` Environment`,
+      name: `${EMOJIS.ENV} Environment`,
       value: meta?.target || 'production',
       inline: true
     });
@@ -155,7 +155,7 @@ function addDeploymentFields(
         : meta.githubCommitMessage;
 
     embed.addField({
-      name: `\`${EMOJIS.MESSAGE}\` Commit Message`,
+      name: `${EMOJIS.MESSAGE} Commit Message`,
       value: `\`\`\`\n${commitMessage}\`\`\``,
       inline: false
     });
@@ -170,7 +170,7 @@ function addDeploymentFields(
     const hostname = new URL(links.deployment).hostname;
 
     embed.addField({
-      name: `\`${EMOJIS.URL}\` ${label}`,
+      name: `${EMOJIS.URL} ${label}`,
       value: `[${hostname}](${links.deployment})`,
       inline: false
     });
@@ -179,7 +179,7 @@ function addDeploymentFields(
   // Clean footer with deployment ID
   if (deployment.id) {
     embed.setFooter({
-      text: `Deployment ${deployment.id}`
+      text: `\`${deployment.id}\``
     });
   }
 }
