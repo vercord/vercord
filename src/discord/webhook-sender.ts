@@ -1,12 +1,11 @@
 import { type Embed, Webhook } from '@vermaysha/discord-webhook';
 
+import { DEFAULT_AVATAR_URL } from '@/consts/discord';
 import { env } from '@/env';
 
 const WEBHOOK_CONFIG = {
   username: env.DISCORD_WEBHOOK_USERNAME || 'Vercord',
-  avatarUrl:
-    env.DISCORD_WEBHOOK_AVATAR_URL ||
-    'https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png'
+  avatarUrl: env.DISCORD_WEBHOOK_AVATAR_URL || DEFAULT_AVATAR_URL
 } as const;
 
 const RETRY_CONFIG = {

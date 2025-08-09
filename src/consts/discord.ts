@@ -1,6 +1,9 @@
 import { type WebhookType } from '@/schemas/vercel';
 import { type StateProperty } from '@/types/discord';
 
+export const DEFAULT_AVATAR_URL =
+  'https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png' as const;
+
 export const COLORS = {
   PROMOTED: 0xd998e3, // Bright purple
   SUCCESS: 0x2ecc71, // Bright green

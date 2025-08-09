@@ -1,6 +1,6 @@
 import { Embed } from '@vermaysha/discord-webhook';
 
-import { EMOJIS, getStateProperty } from '@/consts/discord';
+import { DEFAULT_AVATAR_URL, EMOJIS, getStateProperty } from '@/consts/discord';
 import { env } from '@/env';
 import {
   type Deployment,
@@ -74,9 +74,7 @@ export function createGenericEmbed(webhook: VercelWebhook): Embed {
   );
   embed.setFooter({
     text: `Event ID: ${webhook.id}`,
-    icon_url:
-      env.DISCORD_WEBHOOK_AVATAR_URL ||
-      'https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png'
+    icon_url: env.DISCORD_WEBHOOK_AVATAR_URL || DEFAULT_AVATAR_URL
   });
 
   return embed;
@@ -186,9 +184,7 @@ function addDeploymentFields(
   if (deployment.id) {
     embed.setFooter({
       text: `ID: ${deployment.id}`,
-      icon_url:
-        env.DISCORD_WEBHOOK_AVATAR_URL ||
-        'https://assets.vercel.com/image/upload/front/favicon/vercel/180x180.png'
+      icon_url: env.DISCORD_WEBHOOK_AVATAR_URL || DEFAULT_AVATAR_URL
     });
   }
 }
