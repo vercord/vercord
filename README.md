@@ -11,8 +11,8 @@ DevOps workflow with immediate visibility into your deployment pipeline.
 
 # todo
 
-- [ ] Making a CLI to streamline project creation with webhook setup, vercel
-      deploy, guidance.
+&cross; Making a CLI to streamline project creation with webhook setup, vercel
+deploy, guidance.
 
 ## License
 
