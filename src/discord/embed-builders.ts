@@ -88,7 +88,7 @@ function setBasicEmbedProperties(
   const emoji = getStateProperty(webhook.type, 'emoji') as string;
   const color = getStateProperty(webhook.type, 'color') as number;
 
-  embed.setTitle(`${emoji} ${title}`);
+  embed.setTitle(`\`${emoji}\` ${title}`);
   embed.setColor(`#${color.toString(16)}`);
   embed.setTimestamp();
   embed.setAuthor({
