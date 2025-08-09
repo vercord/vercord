@@ -179,7 +179,7 @@ function addDeploymentFields(
   // Clean footer with deployment ID
   if (deployment.id) {
     embed.setFooter({
-      text: `\`${deployment.id}\``
+      text: `ID: \`${deployment.id}\``
     });
   }
 }
