@@ -91,6 +91,11 @@ function setBasicEmbedProperties(
   embed.setTitle(`${emoji} ${title}`);
   embed.setColor(`#${color.toString(16)}`);
   embed.setTimestamp();
+  embed.setAuthor({
+    name: 'vercord.lol',
+    icon_url: env.DISCORD_WEBHOOK_AVATAR_URL || DEFAULT_AVATAR_URL,
+    url: 'https://vercord.lol'
+  });
 }
 
 function setDeploymentDescription(
@@ -183,7 +188,7 @@ function addDeploymentFields(
   // Clean footer with deployment ID
   if (deployment.id) {
     embed.setFooter({
-      text: `ID: ${deployment.id}`,
+      text: `Deployment ID: ${deployment.id}`,
       icon_url: env.DISCORD_WEBHOOK_AVATAR_URL || DEFAULT_AVATAR_URL
     });
   }
